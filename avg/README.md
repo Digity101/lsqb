@@ -30,6 +30,13 @@ To only install the dependencies for AvantGraph, you can run `avg/install_depend
 AvantGraph is currently under development and not yet available to the public.
 If you are authorized to the AvantGraph repo, you can build and install the binaries using `avg/get.sh`. Provide any argument to disable user interaction (e.g. `avg/get.sh -`). Running this script also installs the needed dependencies.
 
+#### Different Branch
+By default, the script will use the `develop` branch from the avantgraph git repository. To select a different branch, set the `AVANTGRAPH_BRANCH` environment variable to the desired branch. For example:
+```bash
+export AVANTGRAPH_BRANCH=danny/vmcache
+scripts/run_bench.sh --dbs=avg:AvantGraph
+``` 
+
 ### Loading, running and stopping
 
 First select the scaling factor to execute the queries for. To change the default scaling factor `example` to `<sf>`, run:

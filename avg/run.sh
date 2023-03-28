@@ -17,18 +17,7 @@ if ${AVANTGRAPH_REQUIRES_BUILD}; then
     exit 1
 fi
 
-
-# Copy plans to use (temporary)
-rm -rdf ${AVANTGRAPH_PLANS}
-mkdir ${AVANTGRAPH_PLANS}
-cp ${AVANTGRAPH_SRC_PLANS}/* ${AVANTGRAPH_PLANS}/
-
-
-if [[ "${AVANTGRAPH_PUSHDOWN}" == "1" ]]; then
-    EXEC_FILE=${AVANTGRAPH_BINARIES}/ag-exec-multi-threaded
-else
-    EXEC_FILE=${AVANTGRAPH_BINARIES}/no-pushdown/ag-exec-multi-threaded
-fi
+EXEC_FILE=${AVANTGRAPH_BINARIES}/ag-exec-multi-threaded
 
 # Execute queries
 for plan in ${AVANTGRAPH_PLANS}/*.plan.ipr; do

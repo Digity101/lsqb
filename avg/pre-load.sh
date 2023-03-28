@@ -19,7 +19,7 @@ if ${AVANTGRAPH_REQUIRES_BUILD}; then
 fi
 
 ./avg/stop.sh
-mkdir -p "${AVANTGRAPH_GRAPH}" "${AVANTGRAPH_PLANS}" "${AVANTGRAPH_OUTPUT}" "${AVANTGRAPH_CHECKSUMS}"
+mkdir -p "${AVANTGRAPH_GRAPH}" "${AVANTGRAPH_PLANS}" "${AVANTGRAPH_OUTPUT}" "${AVANTGRAPH_CHECKSUMS}" "${AVANTGRAPH_BINARIES}" "${AVANTGRAPH_QUERIES}"
 # Set correct owner if executed as root.
 if [ "${USER}" == "root" ]; then
     sudo chown -R ${SUDO_USER}:${SUDO_USER} ${AVANTGRAPH_DIR}

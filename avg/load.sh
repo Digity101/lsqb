@@ -20,6 +20,7 @@ ebc="\033[0m$(tput sgr0)"
 
 loadtime=0
 indextime=0
+plantime=0
 
 if ((${AVANTGRAPH_CACHE})) && [[ $(md5sum -c "${AVANTGRAPH_CHECKSUMS}/checklist_${SF}.chk" > /dev/null 2>&1; echo $?) == 0 ]]; then
     echo "Using cached graph!"
@@ -94,9 +95,24 @@ else
 
     # Make index(es) TODO
     start=`date +%s.%N`
-    #${AVANTGRAPH_BINARIES}/ag-index create --type=label-adjacency:multimap ${AVANTGRAPH_GRAPH}
+    ${AVANTGRAPH_BINARIES}/ag-index create --type=label-edge:vector ${AVANTGRAPH_GRAPH}
     end=`date +%s.%N`
     indextime=$(echo "$end - $start" | bc -l | awk '{printf "%f", $0}')
+
+    echo "Planning.."
+    # Plan queries
+    start=`date +%s.%N`
+    ## Copy queries
+    cp -r ${AVANTGRAPH_SRC_QUERIES}/*.cypher ${AVANTGRAPH_QUERIES}/
+    echo "Copied queries.."
+    # Generate plans
+    for query in ${AVANTGRAPH_QUERIES}/*.cypher; do
+        echo "Planning ${query}"
+        ${AVANTGRAPH_BINARIES}/ag-plan --query-type=cypher --physical=false --planner=binary --count ${AVANTGRAPH_GRAPH} ${query} > ${AVANTGRAPH_PLANS}/$(basename ${query} .cypher).plan.ipr 
+    done
+
+    end=`date +%s.%N`
+    plantime=$(echo "$end - $start" | bc -l | awk '{printf "%f", $0}')
 
     if ((${AVANTGRAPH_CACHE})); then
         echo "Computing checksum..."
@@ -104,22 +120,6 @@ else
         find ${TARGET}/* -type f -exec md5sum "{}" + >> "${AVANTGRAPH_CHECKSUMS}/checklist_${SF}.chk"
     fi
 fi
-
-# Plan queries
-start=`date +%s.%N`
-## Copy queries
-#cp -r ${AVANTGRAPH_SRC_QUERIES}/*.cypher ${AVANTGRAPH_QUERIES}/ > /dev/null 2>&1
-## Generate plans
-#for query in ${AVANTGRAPH_QUERIES}/*.cypher; do
-#    ${AVANTGRAPH_BINARIES}/ag-plan --query-type=cypher --planner=wco --count --verbose ${AVANTGRAPH_GRAPH} ${query}
-#done
-
-## Copy plans (tmp)
-mkdir -p ${AVANTGRAPH_PLANS}
-cp -r ${AVANTGRAPH_SRC_PLANS}/*.plan.ipr ${AVANTGRAPH_PLANS}/ > /dev/null 2>&1
-end=`date +%s.%N`
-plantime=$(echo "$end - $start" | bc -l | awk '{printf "%f", $0}')
-
 
 # Report times
 echo ""
