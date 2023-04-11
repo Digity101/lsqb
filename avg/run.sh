@@ -46,5 +46,5 @@ for plan in ${AVANTGRAPH_PLANS}/*.plan.ipr; do
     if [[ "${result}" == "" ]]; then
         exit 1
     fi
-    echo -e "AvantGraph\t${threadcount}\t${SF}\t${queryid}\t${runtime}\t${result}" >> ${RESULTS_FILE}
+    echo -e "AvantGraph-${AVANTGRAPH_BRANCH}\t${threadcount}\t${SF}\t${queryid}\t${runtime}\t${result}" >> ${RESULTS_FILE}
 done
