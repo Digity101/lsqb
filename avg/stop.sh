@@ -10,8 +10,6 @@ cd ..
 . avg/vars.sh
 
 
-if [[ "${AVANTGRAPH_CACHE}" == "1" ]]; then
-    rm -rdf "${AVANTGRAPH_PLANS}"/* > /dev/null 2>&1
-else
+if [[ "${AVANTGRAPH_CACHE}" != "1" ]]; then
     rm -rdf "${AVANTGRAPH_GRAPH}"/* "${AVANTGRAPH_PLANS}"/* > /dev/null 2>&1
 fi

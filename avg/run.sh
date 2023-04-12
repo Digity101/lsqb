@@ -8,7 +8,6 @@ cd ..
 
 . scripts/import-vars.sh
 . avg/vars.sh
-
 ce="\033[0;31m$(tput bold)"
 e="\033[0m$(tput sgr0)"
 
@@ -22,11 +21,17 @@ EXEC_FILE=${AVANTGRAPH_BINARIES}/ag-exec-multi-threaded
 # Execute queries
 for plan in ${AVANTGRAPH_PLANS}/*.plan.ipr; do
     queryid=$(echo ${plan} | grep -oP "[0-9]+(?=\.plan\.ipr)")
+    # if (($queryid == 4)); then
+    #     continue
+    # fi
     outfile=${AVANTGRAPH_OUTPUT}/out_${queryid}.txt
     tracefile=${AVANTGRAPH_OUTPUT}/trace_${queryid}.txt
 
+    echo 1 > /proc/sys/vm/drop_caches
+    bufferPoolSizeOption=$([[ "$AVANTGRAPH_BRANCH" == "danny/vmcache" ]] && echo "--buffer-pool-size 8M" || echo "")
 #    start=`date +%s.%N`
     (${EXEC_FILE} \
+        $bufferPoolSizeOption \
         --planner none \
         --count \
         -M \
