@@ -9,7 +9,7 @@ df = pd.read_csv("../results/results.csv", sep='\t', names=["Name", "Threads", "
 df
 
 # %%
-df_agg = df.groupby(by=["Query", "Name"])["Time"].mean().unstack()
+df_agg = df.groupby(by=["Query", "Name"])["Time"].median().unstack()
 df_agg.index = df_agg.index.get_level_values('Query')
 df_agg
 
@@ -17,6 +17,6 @@ df_agg
 # %%
 ax = df_agg.plot.bar()
 ax.legend(title=None)
-ax.set_title("LSQB SF=0.1 16MB Memory Limit Mean Running Time Of 10 Runs")
+ax.set_title("LSQB SF=0.1 Median Running Time Of 10 Runs")
 ax
 # %%

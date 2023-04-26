@@ -107,6 +107,7 @@ else
     echo "Copied queries.."
     # Generate plans
     for query in ${AVANTGRAPH_QUERIES}/*.cypher; do
+        [[ "$(basename $query)" == not* || "$(basename $query)" == opt* ]] && continue
         echo "Planning ${query}"
         ${AVANTGRAPH_BINARIES}/ag-plan --query-type=cypher --physical=false --planner=binary --count ${AVANTGRAPH_GRAPH} ${query} > ${AVANTGRAPH_PLANS}/$(basename ${query} .cypher).plan.ipr 
     done
