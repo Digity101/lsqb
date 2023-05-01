@@ -1,0 +1,4 @@
+read_edge_label(
+    read_label_edges(%s, %e, %t, "HAS_MEMBER"),
+    %a, %b
+)
