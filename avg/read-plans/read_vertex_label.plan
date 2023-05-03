@@ -1,0 +1,5 @@
+read_vertex_label(
+    read_label_edges(%s, _, _, "HAS_MEMBER"), 
+    %s, 
+    %lbl
+)

@@ -48,7 +48,7 @@ echo -e "${b}Done${e}\n"
 
 echo -e "${b}[4/5] Building AvantGraph benchmark${e}"
 sudo -u "${user}" cmake -G Ninja -DCMAKE_BUILD_TYPE=Release  -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWITH_LINKER=lld -S "${agdir}" -B "${builddir}"
-sudo -u "${user}" cmake --build "${builddir}" --target avantgraph ag-load-graph ag-index ag-plan ag-exec-multi-threaded -- -j $(nproc)
+sudo -u "${user}" cmake --build "${builddir}" --target avantgraph ag-load-graph ag-index ag-plan ag-exec-multi-threaded ag-exec -- -j $(nproc)
 echo -e "${b}Done${e}\n"
 
 echo -e "${b}[5/5] Installing AvantGraph benchmark${e}"
@@ -56,6 +56,7 @@ sudo -u "${user}" cp "${builddir}/src/tools/load-graph/ag-load-graph" "${AVANTGR
 sudo -u "${user}" cp "${builddir}/src/tools/index/ag-index" "${AVANTGRAPH_BINARIES}/ag-index"
 sudo -u "${user}" cp "${builddir}/src/tools/plan/ag-plan" "${AVANTGRAPH_BINARIES}/ag-plan"
 sudo -u "${user}" cp "${builddir}/src/tools/execMultiTreaded/ag-exec-multi-threaded" "${AVANTGRAPH_BINARIES}/ag-exec-multi-threaded"
+sudo -u "${user}" cp "${builddir}/src/tools/exec/ag-exec" "${AVANTGRAPH_BINARIES}/ag-exec"
 sudo -u "${user}" mkdir -p "${AVANTGRAPH_BINARIES}/contrib"
 sudo -u "${user}" cp "${agdir}/contrib/import_csv.py" "${AVANTGRAPH_BINARIES}/contrib/import_csv.py"
 echo -e "${b}Done${e}\n"
